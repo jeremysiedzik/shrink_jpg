@@ -2,7 +2,7 @@ from PIL import Image
 import os
 import sys
 
-def shrink_jpeg(input_dir, output_dir, compression_percent):
+def shrink_jpeg(input_dir, output_dir, compression_percent, quality):
     try:
         # Create output directory if it doesn't exist
         if not os.path.exists(output_dir):
@@ -25,8 +25,8 @@ def shrink_jpeg(input_dir, output_dir, compression_percent):
                 # Resize the image
                 resized_image = original_image.resize((new_width, new_height), resample=Image.LANCZOS)
 
-                # Save the resized and compressed image
-                resized_image.save(output_path, quality=85)  # You can adjust the quality (0-100) as needed
+                # Save the resized and compressed image with specified quality
+                resized_image.save(output_path, quality=quality)
                 print(f"Processed: {filename}")
 
     except Exception as e:
@@ -34,14 +34,15 @@ def shrink_jpeg(input_dir, output_dir, compression_percent):
 
 if __name__ == "__main__":
     # Check if correct number of arguments is provided
-    if len(sys.argv) != 4:
-        print("Usage: python script.py <input_directory> <output_directory> <compression_percent>")
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <input_directory> <output_directory> <compression_percent> <quality>")
         sys.exit(1)
 
     # Get command-line arguments
     input_directory = sys.argv[1]
     output_directory = sys.argv[2]
     compression_percent = float(sys.argv[3])
+    quality = int(sys.argv[4])
 
     # Call the function to shrink JPEG files in the input directory
-    shrink_jpeg(input_directory, output_directory, compression_percent)
+    shrink_jpeg(input_directory, output_directory, compression_percent, quality)
